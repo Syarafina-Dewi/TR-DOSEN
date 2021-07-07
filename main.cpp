@@ -24,9 +24,9 @@ int main(int argc, char** argv)
 {
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
-    glutInitWindowSize(900, 700);
-    glutInitWindowPosition(250, 80);
-    glutCreateWindow("GAP UKSW");
+    glutInitWindowSize(1200, 800);
+    glutInitWindowPosition(50, 50);
+    glutCreateWindow("3D");
     init();
     glutDisplayFunc(tampil);
     glutKeyboardFunc(keyboard);
@@ -39,12 +39,10 @@ int main(int argc, char** argv)
 }
 void init(void)
 {
-    glClearColor(0.0, 1.0, 1.0, 0.0);
+    glClearColor(1.0, 1.0, 1.0, 1.0);
     glEnable(GL_DEPTH_TEST);
     is_depth = 1;
     glMatrixMode(GL_MODELVIEW);
-    glEnable(GL_COLOR_MATERIAL);
-    glEnable(GL_LIGHT0);
     glEnable(GL_DEPTH_TEST);
 }
 
@@ -59,8 +57,7 @@ void tampil(void)
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
-    glLineWidth(3.0);
-    gluLookAt(0.0f, 0.0f, 3.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+    gluLookAt(0.0f, 0.0f, 200.0f, 0.0f, 0.0f, 0.0f, 0.0f, 10.0f, 0.0f);
 
     glRotatef(xrot, 1.0f, 0.0f, 0.0f);
     glRotatef(yrot, 0.0f, 1.0f, 0.0f);
@@ -68,8 +65,55 @@ void tampil(void)
     glTranslatef(xmov, ymov, zmov);
     glPushMatrix();
 
+    //depan
+    glPushMatrix();
+    glBegin(GL_QUADS);
+    glColor3f(0.0, 0.0, 0.0);
+    glVertex3f(-120.0, -30.0, 0.0);
+    glVertex3f(-120.0, 60.0, 0.0);
+    glVertex3f(120.0, 60.0, 0.0);
+    glVertex3f(120.0, -30.0, 0.0);
+    glEnd();
 
-     glPopMatrix();
+    //belakang
+    glBegin(GL_QUADS);
+    glColor3f(0.0, 0.0, 0.0);
+    glVertex3f(-120.0, -30.0, -190.0);
+    glVertex3f(-120.0, 60.0, -190.0);
+    glVertex3f(120.0, 60.0, -190.0);
+    glVertex3f(120.0, -30.0, -190.0);
+    glEnd();
+
+    //kanan
+    glBegin(GL_QUADS);
+    glColor3f(0.0, 0.0, 0.0);
+    glVertex3f(120.0, -30.0, -190.0);
+    glVertex3f(120.0, 60.0, -190.0);
+    glVertex3f(120.0, 60.0, 0.0);
+    glVertex3f(120.0, -30.0, 0.0);
+    glEnd();
+
+    //kiri
+    glBegin(GL_QUADS);
+    glColor3f(0.0, 0.0, 0.0);
+    glVertex3f(-120.0, -30.0, -190.0);
+    glVertex3f(-120.0, 60.0, -190.0);
+    glVertex3f(-120.0, 60.0, 0.0);
+    glVertex3f(-120.0, -30.0, 0.0);
+    glEnd();
+
+    //alas tanah
+    glBegin(GL_QUADS);
+    glColor3f(1.0, 0.0, 0.0);
+    glVertex3f(-140.0, -30.0, -200.0);
+    glVertex3f(-140.0, -30.0, 80.0);
+    glVertex3f(140.0, -30.0, 80.0);
+    glVertex3f(140.0, -30.0, -200.0);
+    glEnd();
+
+
+
+    glPopMatrix();
     glutSwapBuffers();
 }
 
@@ -120,29 +164,13 @@ void keyboard(unsigned char key, int x, int y)
     case 'A':
         xmov -= 3.0;
         break;
-    case '7':
+    case 'q':
+    case 'Q':
         ymov += 3.0;
         break;
-    case '9':
+    case 'e':
+    case 'E':
         ymov -= 3.0;
-        break;
-    case '2':
-        glRotatef(2.0, 1.0, 0.0, 0.0);
-        break;
-    case '8':
-        glRotatef(-2.0, 1.0, 0.0, 0.0);
-        break;
-    case '6':
-        glRotatef(2.0, 0.0, 1.0, 0.0);
-        break;
-    case '4':
-        glRotatef(-2.0, 0.0, 1.0, 0.0);
-        break;
-    case '1':
-        glRotatef(2.0, 0.0, 0.0, 1.0);
-        break;
-    case '3':
-        glRotatef(-2.0, 0.0, 0.0, 1.0);
         break;
     case '5':
         if (is_depth)
@@ -164,7 +192,7 @@ void ukuran(int lebar, int tinggi)
     if (tinggi == 0) tinggi = 1;
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    gluPerspective(100.0, lebar / tinggi, 5.0, 750.0);
-    glTranslatef(0.0, -10.0, -150.0);
+    gluPerspective(50.0, lebar / tinggi, 5.0, 500.0);
+    glTranslatef(0.0, -5.0, -150.0);
     glMatrixMode(GL_MODELVIEW);
 }
